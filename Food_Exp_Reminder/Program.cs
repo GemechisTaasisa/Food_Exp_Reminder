@@ -1,11 +1,16 @@
-using Food_Exp_Reminder.Components;
+﻿using Food_Exp_Reminder.Components;
 using Food_Exp_Reminder.Components.Account;
 using Food_Exp_Reminder.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContextFactory<Food_Exp_ReminderContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("Food_Exp_ReminderContext") ?? throw new InvalidOperationException("Connection string 'Food_Exp_ReminderContext' not found.")));
+
+builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -47,6 +52,7 @@ else
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UseMigrationsEndPoint();
 }
 
 app.UseHttpsRedirection();

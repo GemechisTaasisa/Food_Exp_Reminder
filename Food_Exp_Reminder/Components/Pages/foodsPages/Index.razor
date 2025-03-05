@@ -1,0 +1,40 @@
+﻿@page "/foods"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Food_Exp_Reminder.Model
+@using Food_Exp_Reminder.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<Food_Exp_Reminder.Data.Food_Exp_ReminderContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="foods/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.foods">
+    <PropertyColumn Property="foods => foods.Name" />
+    <PropertyColumn Property="foods => foods.ExpiryDate" />
+    <PropertyColumn Property="foods => foods.ReminderDate" />
+    <PropertyColumn Property="foods => foods.ReminderMessage" />
+    <PropertyColumn Property="foods => foods.Email" />
+
+    <TemplateColumn Context="foods">
+        <a href="@($"foods/edit?id={foods.Id}")">Edit</a> |
+        <a href="@($"foods/details?id={foods.Id}")">Details</a> |
+        <a href="@($"foods/delete?id={foods.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>
+
+@code {
+    private Food_Exp_ReminderContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

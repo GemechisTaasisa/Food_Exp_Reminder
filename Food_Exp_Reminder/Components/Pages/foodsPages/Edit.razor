@@ -1,0 +1,109 @@
+﻿@page "/foods/edit"
+@using Microsoft.EntityFrameworkCore
+@using Food_Exp_Reminder.Model
+@inject IDbContextFactory<Food_Exp_Reminder.Data.Food_Exp_ReminderContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>foods</h2>
+<hr />
+@if (foods is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="foods" OnValidSubmit="Updatefoods" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="foods.Id" value="@foods.Id" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="foods.Name" class="form-control" />
+                    <ValidationMessage For="() => foods.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="expirydate" class="form-label">ExpiryDate:</label>
+                    <InputText id="expirydate" @bind-Value="foods.ExpiryDate" class="form-control" />
+                    <ValidationMessage For="() => foods.ExpiryDate" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="reminderdate" class="form-label">ReminderDate:</label>
+                    <InputText id="reminderdate" @bind-Value="foods.ReminderDate" class="form-control" />
+                    <ValidationMessage For="() => foods.ReminderDate" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="remindermessage" class="form-label">ReminderMessage:</label>
+                    <InputText id="remindermessage" @bind-Value="foods.ReminderMessage" class="form-control" />
+                    <ValidationMessage For="() => foods.ReminderMessage" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText id="email" @bind-Value="foods.Email" class="form-control" />
+                    <ValidationMessage For="() => foods.Email" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/foods">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private foods? foods { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        foods ??= await context.foods.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (foods is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task Updatefoods()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(foods!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!foodsExists(foods!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/foods");
+    }
+
+    private bool foodsExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.foods.Any(e => e.Id == id);
+    }
+}

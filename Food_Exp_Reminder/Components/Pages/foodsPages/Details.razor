@@ -1,0 +1,54 @@
+﻿@page "/foods/details"
+@using Microsoft.EntityFrameworkCore
+@using Food_Exp_Reminder.Model
+@inject IDbContextFactory<Food_Exp_Reminder.Data.Food_Exp_ReminderContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h2>foods</h2>
+    <hr />
+    @if (foods is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Name</dt>
+            <dd class="col-sm-10">@foods.Name</dd>
+            <dt class="col-sm-2">ExpiryDate</dt>
+            <dd class="col-sm-10">@foods.ExpiryDate</dd>
+            <dt class="col-sm-2">ReminderDate</dt>
+            <dd class="col-sm-10">@foods.ReminderDate</dd>
+            <dt class="col-sm-2">ReminderMessage</dt>
+            <dd class="col-sm-10">@foods.ReminderMessage</dd>
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@foods.Email</dd>
+        </dl>
+        <div>
+            <a href="@($"/foods/edit?id={foods.Id}")">Edit</a> |
+            <a href="@($"/foods")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    private foods? foods;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        foods = await context.foods.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (foods is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}
