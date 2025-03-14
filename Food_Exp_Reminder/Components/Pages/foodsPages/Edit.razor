@@ -6,16 +6,16 @@
 
 <PageTitle>Edit</PageTitle>
 
-<h1>Edit</h1>
 
-<h2>foods</h2>
-<hr />
 @if (foods is null)
 {
     <p><em>Loading...</em></p>
 }
 else
-{
+{<div class="container section-title" data-aos="fade-up">
+    @*     <h2>Create</h2> *@
+    <div><span>Edit</span> <span class="description-title">foods</span></div>
+</div><!-- End Section Title -->
     <div class="row">
         <div class="col-md-4">
             <EditForm method="post" Model="foods" OnValidSubmit="Updatefoods" FormName="edit" Enhance>

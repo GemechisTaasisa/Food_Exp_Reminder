@@ -6,44 +6,74 @@
 
 <PageTitle>Create</PageTitle>
 
-<h1>Create</h1>
+@* <h1>Create</h1>
 
 <h2>foods</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <EditForm method="post" Model="foods" OnValidSubmit="Addfoods" FormName="create" Enhance>
+<hr /> *@
+
+<!-- Section Title -->
+<div class="container section-title" data-aos="fade-up">
+@*     <h2>Create</h2> *@
+    <div><span>Create</span> <span class="description-title">foods</span></div>
+</div><!-- End Section Title -->
+
+
+<div class="container">
+
+    <div class="row g-0" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/reservation.jpg);"></div>
+
+        <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200">
+@* <div class="container"> *@
+@*     <div class="row g-0" data-aos="fade-up" data-aos-delay="100"> *@
+@*     <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/reservation.jpg);"></div>
+    <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200"> *@
+    <EditForm method="post" Model="foods" OnValidSubmit="Addfoods" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label> 
+         <div class="row gy-4">
+            <div class="col-lg-4 col-md-6">
+                <label for="name" class="form-control">Name:</label>
                 <InputText id="name" @bind-Value="foods.Name" class="form-control" /> 
                 <ValidationMessage For="() => foods.Name" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
-                <label for="expirydate" class="form-label">ExpiryDate:</label> 
+            <div class="col-lg-4 col-md-6">
+                <label for="expirydate" class="form-control">ExpiryDate:</label> 
                 <InputText id="expirydate" @bind-Value="foods.ExpiryDate" class="form-control" /> 
                 <ValidationMessage For="() => foods.ExpiryDate" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
-                <label for="reminderdate" class="form-label">ReminderDate:</label> 
+            <div class="col-lg-4 col-md-6">
+                <label for="reminderdate" class="form-control">ReminderDate:</label>
                 <InputText id="reminderdate" @bind-Value="foods.ReminderDate" class="form-control" /> 
                 <ValidationMessage For="() => foods.ReminderDate" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
-                <label for="remindermessage" class="form-label">ReminderMessage:</label> 
+            <div class="col-lg-4 col-md-6">
+                <label for="remindermessage" class="form-control">ReminderMessage:</label>
                 <InputText id="remindermessage" @bind-Value="foods.ReminderMessage" class="form-control" /> 
                 <ValidationMessage For="() => foods.ReminderMessage" class="text-danger" /> 
             </div>        
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label> 
+            <div class="col-lg-4 col-md-6">
+                <label for="email" class="form-control">Email:</label>
                 <InputText id="email" @bind-Value="foods.Email" class="form-control" /> 
                 <ValidationMessage For="() => foods.Email" class="text-danger" /> 
-            </div>        
+            </div>    
+         </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
-    </div>
-</div>
+
+                    </div><!-- End Reservation Form -->
+
+                </div>
+
+            </div>
+    
+
+
+
+
+
+
 
 <div>
     <a href="/foods">Back to List</a>
