@@ -1,78 +1,145 @@
 ﻿@page "/SignUp"
 
+@using Microsoft.AspNetCore.Identity
+@using Food_Exp_Reminder.Data
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager NavigationManager
 
+<title>Sign Up</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-<!-- Font Icon -->
-<link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-
-<!-- Main css -->
-<link rel="stylesheet" href="css/style.css">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="css/util.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
 
 <style>
-    .form-submit 
-    {
-        background-color: #ffb03b; /* Use the accent color */
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
+    .login100-form-bgbtn {
+    background: #ffb03b;
     }
 
-        .form-submit:hover
-        {
-            background-color: darken(#ffb03b, 10%); /* Darken on hover */
-        }
+    .wrap-login100-form-btn:hover .login100-form-bgbtn {
+    background: #e09e34;
+    }
 </style>
 
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/BGI.jpg');">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+            <EditForm Model="@newUser" OnValidSubmit="@HandleValidSubmit" FormName="SignUpForm">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-<div class="main">
+                <span class="login100-form-title p-b-49">
+                    Sign Up
+                </span>
 
-    <section class="signup">
-        <!-- <img src="images/signup-bg.jpg" alt=""> -->
-        <div class="container" style="background: #fff; padding: 20px 40px; max-width: 500px; margin: 0 auto; border-radius: 10px;">
-            <div class="signup-content" style="background: #fff; padding: 20px 40px; max-width: 500px; margin: 0 auto; border-radius: 10px;">
-                <form method="POST" id="signup-form" class="signup-form">
-                    <h2 class="form-title">Create account</h2>
-                    <div class="form-group">
-                        <input type="text" class="form-input" name="name" id="name" placeholder="Your Name" />
+                <div class="wrap-input100 validate-input m-b-23">
+                    <span class="label-input100">First Name</span>
+                    <InputText class="input100" @bind-Value="newUser.FirstName" placeholder="Type your first name" />
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <span class="label-input100">Last Name</span>
+                    <InputText class="input100" @bind-Value="newUser.LastName" placeholder="Type your last name" />
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-23">
+                    <span class="label-input100">Username</span>
+                    <InputText class="input100" @bind-Value="newUser.UserName" placeholder="Type your username" />
+                    <span class="focus-input100" data-symbol="&#xf206;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input">
+                    <span class="label-input100">Email</span>
+                    <InputText class="input100" @bind-Value="newUser.Email" placeholder="Type your Email" />
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input">
+                    <span class="label-input100">Password</span>
+                    <InputText class="input100" @bind-Value="newUser.Password" placeholder="Type your password" type="password" />
+                    <span class="focus-input100" data-symbol="&#xf190;"></span>
+                </div>
+
+                <br>
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn" type="submit">
+                            Sign Up
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <input type="email" class="form-input" name="email" id="email" placeholder="Your Email" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-input" name="password" id="password" placeholder="Password" />
-                        <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" />
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                        <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up" />
-                    </div>
-                </form>
-                <p class="loginhere">
-                    Have already an account ? <a href="#" class="loginhere-link">Login here</a>
-                </p>
-            </div>
+                </div>
+
+                <div class="flex-col-c p-t-155">
+                    <a href="/login" class="txt2">
+                        Already have an account?
+                    </a>
+                </div>
+            </EditForm>
         </div>
-    </section>
-
+    </div>
 </div>
 
-<!-- JS -->
-<script src="JQ Files/jquery/jquery.min.js"></script>
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
 <script src="js/main.js"></script>
 
-@code
-{
+@code {
+    private ApplicationUser newUser = new ApplicationUser();
 
+    private async Task HandleValidSubmit()
+    {
+        var result = await UserManager.CreateAsync(newUser, newUser.Password);
+        if (result.Succeeded)
+        {
+            await SignInManager.SignInAsync(newUser, isPersistent: false);
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            foreach (var error in result.Errors)
+            {
+                throw new Exception("Something went wrong!");
+            }
+        }
+    }
 }
