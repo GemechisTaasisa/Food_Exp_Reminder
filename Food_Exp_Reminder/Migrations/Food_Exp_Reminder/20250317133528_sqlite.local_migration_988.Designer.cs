@@ -2,6 +2,7 @@
 using Food_Exp_Reminder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,39 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Food_Exp_Reminder.Migrations.Food_Exp_Reminder
 {
     [DbContext(typeof(Food_Exp_ReminderContext))]
-    partial class Food_Exp_ReminderContextModelSnapshot : ModelSnapshot
+    [Migration("20250317133528_sqlite.local_migration_988")]
+    partial class sqlitelocal_migration_988
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
-
-            modelBuilder.Entity("Food_Exp_Reminder.Model.SignIn", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("firstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("secondName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SignIn");
-                });
 
             modelBuilder.Entity("Food_Exp_Reminder.Model.foods", b =>
                 {

@@ -1,0 +1,67 @@
+﻿@page "/signins/delete"
+@using Microsoft.EntityFrameworkCore
+@using Food_Exp_Reminder.Model
+@inject IDbContextFactory<Food_Exp_Reminder.Data.Food_Exp_ReminderContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<p>Are you sure you want to delete this?</p>
+<div>
+    <h2>SignIn</h2>
+    <hr />
+    @if (signin is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">firstName</dt>
+            <dd class="col-sm-10">@signin.firstName</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">secondName</dt>
+            <dd class="col-sm-10">@signin.secondName</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@signin.Email</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Password</dt>
+            <dd class="col-sm-10">@signin.Password</dd>
+        </dl>
+        <EditForm method="post" Model="signin" OnValidSubmit="DeleteSignIn" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(signin is null)">Delete</button> |
+            <a href="/signins">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    private SignIn? signin;
+
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        signin = await context.SignIn.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (signin is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    private async Task DeleteSignIn()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.SignIn.Remove(signin!);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/signins");
+    }
+}

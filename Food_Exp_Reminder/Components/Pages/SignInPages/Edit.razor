@@ -1,0 +1,104 @@
+﻿@page "/signins/edit"
+@using Microsoft.EntityFrameworkCore
+@using Food_Exp_Reminder.Model
+@inject IDbContextFactory<Food_Exp_Reminder.Data.Food_Exp_ReminderContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h2>SignIn</h2>
+<hr />
+@if (SignIn is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="SignIn" OnValidSubmit="UpdateSignIn" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert"/>
+                <input type="hidden" name="SignIn.Id" value="@SignIn.Id" />
+                <div class="mb-3">
+                    <label for="firstname" class="form-label">firstName:</label>
+                    <InputText id="firstname" @bind-Value="SignIn.firstName" class="form-control" />
+                    <ValidationMessage For="() => SignIn.firstName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="secondname" class="form-label">secondName:</label>
+                    <InputText id="secondname" @bind-Value="SignIn.secondName" class="form-control" />
+                    <ValidationMessage For="() => SignIn.secondName" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText id="email" @bind-Value="SignIn.Email" class="form-control" />
+                    <ValidationMessage For="() => SignIn.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <InputText id="password" @bind-Value="SignIn.Password" class="form-control" />
+                    <ValidationMessage For="() => SignIn.Password" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/signins">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int Id { get; set; }
+
+    [SupplyParameterFromForm]
+    private SignIn? SignIn { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        SignIn ??= await context.SignIn.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (SignIn is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateSignIn()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(SignIn!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!SignInExists(SignIn!.Id))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/signins");
+    }
+
+    private bool SignInExists(int id)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.SignIn.Any(e => e.Id == id);
+    }
+}

@@ -2,6 +2,7 @@
 using Food_Exp_Reminder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Food_Exp_Reminder.Migrations.Food_Exp_Reminder
 {
     [DbContext(typeof(Food_Exp_ReminderContext))]
-    partial class Food_Exp_ReminderContextModelSnapshot : ModelSnapshot
+    [Migration("20250317140842_sqlite.local_migration_539")]
+    partial class sqlitelocal_migration_539
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");

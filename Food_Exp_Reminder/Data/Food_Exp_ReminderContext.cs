@@ -15,5 +15,6 @@ namespace Food_Exp_Reminder.Data
         }
 
         public DbSet<Food_Exp_Reminder.Model.foods> foods { get; set; } = default!;
+        public DbSet<Food_Exp_Reminder.Model.SignIn> SignIn { get; set; } = default!;
     }
 }

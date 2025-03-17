@@ -1,0 +1,39 @@
+﻿@page "/signins"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using Food_Exp_Reminder.Model
+@using Food_Exp_Reminder.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<Food_Exp_Reminder.Data.Food_Exp_ReminderContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="signins/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="context.SignIn">
+    <PropertyColumn Property="signin => signin.firstName" />
+    <PropertyColumn Property="signin => signin.secondName" />
+    <PropertyColumn Property="signin => signin.Email" />
+    <PropertyColumn Property="signin => signin.Password" />
+
+@*     <TemplateColumn Context="signin">
+        <a href="@($"signins/edit?id={signin.Id}")">Edit</a> |
+        <a href="@($"signins/details?id={signin.Id}")">Details</a> |
+        <a href="@($"signins/delete?id={signin.Id}")">Delete</a>
+    </TemplateColumn> *@
+</QuickGrid>
+
+@code {
+    private Food_Exp_ReminderContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
