@@ -53,8 +53,10 @@
 
 <h2>SignIn</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('images/BGI.jpg');">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+
         <EditForm method="post" Model="SignIn" OnValidSubmit="AddSignIn" FormName="create" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
@@ -82,6 +84,7 @@
         </EditForm>
     </div>
 </div>
+</div>
 
 <div>
     <a href="/signins">Back to List</a>
@@ -97,6 +100,6 @@
         using var context = DbFactory.CreateDbContext();
         context.SignIn.Add(SignIn);
         await context.SaveChangesAsync();
-        NavigationManager.NavigateTo("/signins");
+        NavigationManager.NavigateTo("/login");
     }
 }
