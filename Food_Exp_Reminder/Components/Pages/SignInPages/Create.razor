@@ -49,9 +49,10 @@
 
 <PageTitle>Create</PageTitle>
 
-<h1>Create</h1>
+<span class="login100-form-title p-b-49">
+    Sign Up
+</span>
 
-<h2>SignIn</h2>
 <hr />
 <div class="limiter">
     <div class="container-login100" style="background-image: url('images/BGI.jpg');">
@@ -78,7 +79,31 @@
             <div class="wrap-input100 validate-input">
                 <label for="password" class="form-label">Password:</label> 
                 <InputText id="password" @bind-Value="SignIn.Password" class="form-control" /> 
-                <ValidationMessage For="() => SignIn.Password" class="text-danger" /> 
+                <ValidationMessage For="() => SignIn.Password" class="text-danger" />
+
+
+
+
+
+                    <br>
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <button class="login100-form-btn" type="submit">
+                                Sign Up
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex-col-c p-t-155">
+                        <a href="/login" class="txt2">
+                            Already have an account?
+                        </a>
+                    </div>
+
+
+
+
             </div>        
             <button type="submit" class="btn btn-primary">Register</button>
         </EditForm>
