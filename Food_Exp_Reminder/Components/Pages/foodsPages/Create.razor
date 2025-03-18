@@ -6,25 +6,30 @@
 
 <PageTitle>Create</PageTitle>
 
+<h1>Create</h1>
 @* <h1>Create</h1>
 
-<h2>foods</h2>
-<hr /> *@
+ <h2>foods</h2>
+ <hr />
+ <div class="row">
+     <div class="col-md-4">
+         <EditForm method="post" Model="foods" OnValidSubmit="Addfoods" FormName="create" Enhance>
+ <hr /> *@
 
 <!-- Section Title -->
 <div class="container section-title" data-aos="fade-up">
-@*     <h2>Create</h2> *@
+    @*     <h2>Create</h2> *@
     <div><span>Create</span> <span class="description-title">foods</span></div>
 </div><!-- End Section Title -->
 
 
-<div class="container">
+@* <div class="container">
 
     <div class="row g-0" data-aos="fade-up" data-aos-delay="100">
 
         <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/reservation.jpg);"></div>
 
-        <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-8 d-flex align-items-center reservation-form-bg" data-aos="fade-up" data-aos-delay="200"> *@
 @* <div class="container"> *@
 @*     <div class="row g-0" data-aos="fade-up" data-aos-delay="100"> *@
 @*     <div class="col-lg-4 reservation-img" style="background-image: url(assets/img/reservation.jpg);"></div>
@@ -62,12 +67,12 @@
             <button type="submit" class="btn btn-primary">Create</button>
         </EditForm>
 
-                    </div><!-- End Reservation Form -->
+@*                     </div><!-- End Reservation Form -->
 
                 </div>
 
             </div>
-    
+     *@
 
 
 
